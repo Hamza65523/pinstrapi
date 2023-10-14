@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pins",
+  "info": {
+    "singularName": "pin",
+    "pluralName": "pins",
+    "displayName": "pin",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "latitude": {
+      "type": "string"
+    },
+    "longitude": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "pic": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "locationType": {
+      "type": "string"
+    },
+    "resetToken": {
+      "type": "string"
+    },
+    "pin": {
+      "type": "string"
+    },
+    "expireToken": {
+      "type": "datetime"
+    }
+  }
+}
