@@ -68,6 +68,9 @@
       "relation": "oneToOne",
       "target": "api::profile.profile",
       "inversedBy": "user"
+    },
+    "phone": {
+      "type": "biginteger"
     }
   }
 }

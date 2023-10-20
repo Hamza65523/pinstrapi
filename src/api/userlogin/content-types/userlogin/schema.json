@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "userlogins",
+  "info": {
+    "singularName": "userlogin",
+    "pluralName": "userlogins",
+    "displayName": "userlogin",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "username": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "biginteger"
+    },
+    "userverified": {
+      "type": "boolean",
+      "default": false
+    },
+    "image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}
