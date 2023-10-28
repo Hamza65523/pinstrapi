@@ -13,6 +13,12 @@
   "attributes": {
     "name": {
       "type": "string"
+    },
+    "savepins": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::savepin.savepin",
+      "mappedBy": "user"
     }
   }
 }

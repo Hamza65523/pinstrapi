@@ -19,6 +19,15 @@ routes: [
         },
     },
     {
+        method: 'GET',
+        path: '/get-user-phone/:phone',
+        handler: 'homepage.getUser',
+        config: {
+            // middlewares: ['plugin::users-permissions.rateLimit'],
+            // prefix: '',
+        },
+    },
+    {
         method: 'POST',
         path: '/login',
         handler: 'homepage.login',

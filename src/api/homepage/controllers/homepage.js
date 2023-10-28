@@ -10,6 +10,27 @@ const { validateCallbackBody } = require("@strapi/plugin-users-permissions/serve
 
 module.exports = createCoreController('api::homepage.homepage', ({strapi}) => ({
     
+async getUser(ctx) {
+
+    const { phone } = ctx.request.params;
+console.log(ctx.request.params)
+    if (!phone) return ctx.badRequest('missing.phone');
+    // if (!username) return ctx.badRequest('missing.username');
+
+    const userWithThisNumber = await strapi
+      .query('plugin::users-permissions.user')
+      .findMany( { where: {
+        phone,
+    },} );
+    if (userWithThisNumber) {
+      return ctx.send({
+          users: userWithThisNumber,
+          message: 'Phone already taken.',
+          field: ['phone'],
+        })
+      ;
+    }
+  },
 async create(ctx) {
 
     const { phone } = ctx.request.body;

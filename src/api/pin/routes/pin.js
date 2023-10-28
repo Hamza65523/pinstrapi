@@ -12,6 +12,24 @@ module.exports = {
     routes: [
       {
        method: 'POST',
+       path: '/createsavepin',
+       handler: 'pin.createPinss',
+       config: {
+         policies: [],
+         middlewares: [],
+       },
+      },
+      {
+       method: 'GET',
+       path: '/findpinbynumber/:phoneNumber',
+       handler: 'pin.findByPhoneNumber',
+       config: {
+         policies: [],
+         middlewares: [],
+       },
+      },
+      {
+       method: 'POST',
        path: '/pin',
        handler: 'pin.createPin',
        config: {

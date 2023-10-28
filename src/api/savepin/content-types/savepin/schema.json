@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "savepins",
+  "info": {
+    "singularName": "savepin",
+    "pluralName": "savepins",
+    "displayName": "savepin",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "savepins"
+    },
+    "pins": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::pin.pin",
+      "mappedBy": "savepin"
+    }
+  }
+}

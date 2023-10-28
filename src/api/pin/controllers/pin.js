@@ -29,11 +29,39 @@ function generateRandomToken(length) {
 }
 
 module.exports = createCoreController('api::pin.pin', ({strapi}) => ({
+  async createPinss(ctx) {
+    const { phoneNumber, pin } = ctx.request.body;
 
+    if (!phoneNumber || !pin) {
+      return ctx.badRequest('Phone number and pin are required.');
+    }
+
+    // Create a new pin record
+    const newPin = await strapi.services.pin.create({
+      phoneNumber,
+      pin,
+      publishedAt:Date.now(),
+    });
+
+    return newPin;
+  },
+
+  async findByPhoneNumber(ctx) {
+    const { phoneNumber } = ctx.params;
+    if (!phoneNumber) {
+      return ctx.badRequest('Phone number is required.');
+    }
+
+    // Retrieve pins by phone number
+    const pins = await strapi.db.query('api::pin.pin').findMany({
+      where: {"phone": phoneNumber}
+    });
+    return pins;
+  },
 
   async createPin(ctx){
-    const {  latitude, longitude,name,address,locationType,customMinutes} = ctx.request.body;
-    if (!latitude||!longitude||!name||!address||!locationType||!customMinutes) {
+    const {  latitude, longitude,name,address,locationType,customMinutes,phone} = ctx.request.body;
+    if (!latitude||!longitude||!name||!address||!locationType||!customMinutes||!phone) {
       return ctx.throw(404, 'all fields are required bro please yar');
     }
     const posts = await strapi.db.query('api::pin.pin').create({data:{
@@ -41,7 +69,9 @@ module.exports = createCoreController('api::pin.pin', ({strapi}) => ({
       longitude,
       address, 
       name,
+      phone,
       locationType,
+      publishedAt:Date.now(),
       pin:generateRandomPIN(),
       resetToken:generateRandomToken(8),
       expireToken:new Date(Date.now() + customMinutes * 60 * 1000), 
