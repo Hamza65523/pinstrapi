@@ -104,6 +104,37 @@ if (!posts) {
     const sanitizedEntity = await this.sanitizeOutput(posts, ctx);
     return this.transformResponse(sanitizedEntity);
   },
+  async getsavepinPhone(ctx){
+    const phone = ctx.request.params.phone;
+  const posts = await strapi.db.query('api::savepin.savepin').findMany({
+  where: {"phone": phone},
+  populate: true,
+
+});
+if (!posts) {
+  return ctx.throw(404, 'Pin not found');
+}
+    const sanitizedEntity = await this.sanitizeOutput(posts, ctx);
+    return this.transformResponse(sanitizedEntity);
+  },
+  async getPinNumber(ctx){
+    const phone = ctx.request.params.phone;
+  const posts = await strapi.db.query('api::pin.pin').findOne({
+  where: {"phone": phone}
+});
+if (!posts) {
+  return ctx.throw(404, 'Pin not found');
+}
+
+    // .findOne({where: {"PrimaryPhone": phone}});
+    // const posts = await strapi.db.query('api::post.post').findMany({
+    //   where: {
+    //     "users_permissions_user": id,
+    //   },
+    // });
+    const sanitizedEntity = await this.sanitizeOutput(posts, ctx);
+    return this.transformResponse(sanitizedEntity);
+  },
   async deletePin(ctx){
     const pinId = ctx.request.params.pin; // Assuming the parameter is 'id'
     const deletedPin = await strapi.db.query('api::pin.pin').delete({
@@ -148,6 +179,7 @@ if (!posts) {
 
     const sanitizedEntity = await this.sanitizeOutput(updatedPin, ctx);
     return this.transformResponse(sanitizedEntity);
-  }
+  },
+  
 
 }));

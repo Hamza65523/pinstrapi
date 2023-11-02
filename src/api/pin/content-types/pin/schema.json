@@ -47,12 +47,6 @@
     "expireToken": {
       "type": "datetime"
     },
-    "savepin": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::savepin.savepin",
-      "inversedBy": "pins"
-    },
     "phone": {
       "type": "text"
     }

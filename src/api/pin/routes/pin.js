@@ -29,6 +29,24 @@ module.exports = {
        },
       },
       {
+       method: 'GET',
+       path: '/getsavepinsbynumber/:phone',
+       handler: 'pin.getsavepinPhone',
+       config: {
+         policies: [],
+         middlewares: [],
+       },
+      },
+      {
+       method: 'GET',
+       path: '/get-pin-byphone/:phone',
+       handler: 'pin.getPinNumber',
+       config: {
+         policies: [],
+         middlewares: [],
+       },
+      },
+      {
        method: 'POST',
        path: '/pin',
        handler: 'pin.createPin',

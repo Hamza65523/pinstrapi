@@ -81,6 +81,12 @@
       ],
       "type": "media",
       "multiple": false
+    },
+    "savepins": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::savepin.savepin",
+      "mappedBy": "user"
     }
   }
 }

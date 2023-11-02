@@ -13,7 +13,6 @@ module.exports = createCoreController('api::homepage.homepage', ({strapi}) => ({
 async getUser(ctx) {
 
     const { phone } = ctx.request.params;
-console.log(ctx.request.params)
     if (!phone) return ctx.badRequest('missing.phone');
     // if (!username) return ctx.badRequest('missing.username');
 
@@ -58,7 +57,7 @@ async create(ctx) {
     const user = {
 			username:'user-'+token,
       phone,
-      email:'kldsfjljdlk@gmail.com',
+      email:'email'+token+'@gmail.com',
       provider: 'local',
       token
     };
