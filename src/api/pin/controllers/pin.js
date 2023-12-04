@@ -37,12 +37,16 @@ module.exports = createCoreController('api::pin.pin', ({strapi}) => ({
     }
 
     // Create a new pin record
-    const newPin = await strapi.services.pin.create({
-      phoneNumber,
-      pin,
-      publishedAt:Date.now(),
+    const newPin = await strapi.entityService.create('api::pin.pin', {
+      data: {
+        phoneNumber,
+        pin,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        publishedAt: new Date(),
+      },
+      populate: ['user'],
     });
-
     return newPin;
   },
 
@@ -60,10 +64,11 @@ module.exports = createCoreController('api::pin.pin', ({strapi}) => ({
   },
 
   async createPin(ctx){
-    const {  latitude, longitude,name,address,locationType,customMinutes,phone} = ctx.request.body;
-    if (!latitude||!longitude||!name||!address||!locationType||!customMinutes||!phone) {
+    const {  latitude, longitude,name,address,locationType,customMinutes,phone,user} = ctx.request.body;
+    if (!latitude||!longitude||!name||!address||!locationType||!customMinutes||!phone||!user) {
       return ctx.throw(404, 'all fields are required bro please yar');
     }
+    console.log('user,',user)
     const posts = await strapi.db.query('api::pin.pin').create({data:{
       latitude,
       longitude,
@@ -74,8 +79,10 @@ module.exports = createCoreController('api::pin.pin', ({strapi}) => ({
       publishedAt:Date.now(),
       pin:generateRandomPIN(),
       resetToken:generateRandomToken(8),
+      user:user,
       expireToken:new Date(Date.now() + customMinutes * 60 * 1000), 
-    }});
+    },populate:true}
+    );
     const sanitizedEntity = await this.sanitizeOutput(posts, ctx);
     
     return this.transformResponse(sanitizedEntity);
@@ -88,9 +95,12 @@ module.exports = createCoreController('api::pin.pin', ({strapi}) => ({
   },
   async getPinId(ctx){
     const pin = ctx.request.params.pin;
-  const posts = await strapi.db.query('api::pin.pin').findOne({
-  where: {"pin": pin,"expireToken":{$gt:Date.now()}}
-});
+    console.log(pin,'lpin')
+    const posts = await strapi.db.query('api::pin.pin').findOne({
+      where: {"pin": pin,"expireToken":{$gt:Date.now()}},
+      populate:true
+    },);
+    console.log(posts,'lpin')
 if (!posts) {
   return ctx.throw(404, 'Pin not found');
 }
