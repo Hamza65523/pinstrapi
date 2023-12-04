@@ -90,6 +90,64 @@ module.exports = createCoreController(
         ctx.send(error);
       }
     },
+    async createguest(ctx) {
+      const { email,name } = ctx.request.body;
+
+      if (!email) return ctx.badRequest("missing.email");
+      if (!name) return ctx.badRequest("missing.name");
+      // if (!username) return ctx.badRequest('missing.username');
+
+      const userWithThisNumber = await strapi
+        .query("plugin::users-permissions.user")
+        .findOne({
+          where: {
+            email,
+          },
+        });
+      if (userWithThisNumber) {
+        return ctx.send({
+          id: "Auth.form.error.email.taken",
+          message: "Email already taken.",
+          field: ["email"],
+        });
+      }
+
+      const token = Math.floor(Math.random() * 90000) + 10000;
+
+      const user = {
+        username: "GuestUser-" + name,
+        email:email,
+        provider: "local",
+        token,
+      };
+
+      const advanced = await strapi
+        .store({
+          environment: "",
+          type: "plugin",
+          name: "users-permissions",
+          key: "advanced",
+        })
+        .get();
+
+      const defaultRole = await strapi
+        .query("plugin::users-permissions.role")
+        .findOne({ type: advanced.default_role }, []);
+
+      user.role = defaultRole.id;
+
+      try {
+        const data = await strapi.plugins[
+          "users-permissions"
+        ].services.user.add(user);
+        //   ctx.created(sanitizeUser(data));
+        ctx.send({ data, status: true });
+        //   const data = await strapi.db.query('api::users-permissions').create({data:user})
+        //   ctx.send({user,status:true})
+      } catch (error) {
+        ctx.send(error);
+      }
+    },
     async login(ctx) {
       const { phone } = ctx.request.body;
 

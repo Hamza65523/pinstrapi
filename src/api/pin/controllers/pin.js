@@ -100,7 +100,6 @@ module.exports = createCoreController('api::pin.pin', ({strapi}) => ({
       where: {"pin": pin,"expireToken":{$gt:Date.now()}},
       populate:true
     },);
-    console.log(posts,'lpin')
 if (!posts) {
   return ctx.throw(404, 'Pin not found');
 }

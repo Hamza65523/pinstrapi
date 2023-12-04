@@ -19,6 +19,15 @@ routes: [
         },
     },
     {
+        method: 'POST',
+        path: '/register-guest',
+        handler: 'homepage.createguest',
+        config: {
+            // middlewares: ['plugin::users-permissions.rateLimit'],
+            // prefix: '',
+        },
+    },
+    {
         method: 'GET',
         path: '/get-user-phone/:phone',
         handler: 'homepage.getUser',
