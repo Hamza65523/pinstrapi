@@ -60,7 +60,6 @@ module.exports = createCoreController(
         phone,
         email: "email" + token + "@gmail.com",
         provider: "local",
-        token,
       };
 
       const advanced = await strapi
@@ -83,7 +82,7 @@ module.exports = createCoreController(
           "users-permissions"
         ].services.user.add(user);
         //   ctx.created(sanitizeUser(data));
-        ctx.send({ data, status: true });
+        ctx.send({ data, status: true,jwt: strapi.plugins['users-permissions'].services.jwt.issue({ id: data.id })  });
         //   const data = await strapi.db.query('api::users-permissions').create({data:user})
         //   ctx.send({user,status:true})
       } catch (error) {
@@ -169,9 +168,8 @@ module.exports = createCoreController(
           field: ["phone"],
         });
       }
-      const token = Math.floor(Math.random() * 90000) + 10000;
       try {
-        ctx.send({ userWithThisNumber, token, status: true });
+        ctx.send({ jwt: strapi.plugins['users-permissions'].services.jwt.issue({ id: userWithThisNumber.id }) ,userWithThisNumber, status: true });
       } catch (error) {
         ctx.send(error);
       }
@@ -199,9 +197,9 @@ module.exports = createCoreController(
         ctx.send(error);
       }
     },
-    async updateuser(ctx) {
+async updateuser(ctx) {
       const { phone } = ctx.request.params;
-      const { username, image } = ctx.request.body.data;
+      const { username, email } = ctx.request.body.data;
       const updatedPin = await strapi.db
         .query("plugin::users-permissions.user")
         .update({
@@ -210,7 +208,7 @@ module.exports = createCoreController(
           },
           data: {
             username,
-            image,
+            email,
           },
         });
 

@@ -62,13 +62,11 @@ module.exports = createCoreController('api::pin.pin', ({strapi}) => ({
     });
     return pins;
   },
-
-  async createPin(ctx){
-    const {  latitude, longitude,name,address,locationType,customMinutes,phone,user} = ctx.request.body;
-    if (!latitude||!longitude||!name||!address||!locationType||!customMinutes||!phone||!user) {
+async createPin(ctx){
+    const {  latitude, longitude,name,address,locationType,customMinutes,phone} = ctx.request.body;
+    if (!latitude||!longitude||!name||!address||!locationType||!customMinutes||!phone) {
       return ctx.throw(404, 'all fields are required bro please yar');
     }
-    console.log('user,',user)
     const posts = await strapi.db.query('api::pin.pin').create({data:{
       latitude,
       longitude,
@@ -79,7 +77,6 @@ module.exports = createCoreController('api::pin.pin', ({strapi}) => ({
       publishedAt:Date.now(),
       pin:generateRandomPIN(),
       resetToken:generateRandomToken(8),
-      user:user,
       expireToken:new Date(Date.now() + customMinutes * 60 * 1000), 
     },populate:true}
     );
@@ -101,7 +98,7 @@ module.exports = createCoreController('api::pin.pin', ({strapi}) => ({
       populate:true
     },);
 if (!posts) {
-  return ctx.throw(404, 'Pin not found');
+  return ctx.throw(404, 'Pin not found or expired');
 }
 
     // .findOne({where: {"PrimaryPhone": phone}});
