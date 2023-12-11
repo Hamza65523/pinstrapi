@@ -20,6 +20,15 @@ module.exports = {
        },
       },
       {
+       method: 'POST',
+       path: '/send-notification',
+       handler: 'pin.fcmNotification',
+       config: {
+         policies: [],
+         middlewares: [],
+       },
+      },
+      {
        method: 'GET',
        path: '/findpinbynumber/:phoneNumber',
        handler: 'pin.findByPhoneNumber',

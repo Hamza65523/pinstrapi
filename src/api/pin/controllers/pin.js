@@ -1,5 +1,6 @@
 'use strict';
 const {getService} = require("@strapi/plugin-users-permissions/server/utils");
+const axios = require('axios')
 /**
  * A set of functions called "actions" for `pin`
  */
@@ -83,6 +84,40 @@ async createPin(ctx){
     const sanitizedEntity = await this.sanitizeOutput(posts, ctx);
     
     return this.transformResponse(sanitizedEntity);
+  },
+async fcmNotification(ctx){
+    const {token, title,body} = ctx.request.body;
+    if (!token||!title||!body) {
+      return ctx.throw(404, 'all fields are required bro please yar');
+    }
+    // Define the data to be sent
+    const data = JSON.stringify({
+      "to":token,
+      "notification": {
+        "body": body,
+        "title":title
+      }
+    })
+    const {status} = await axios.post(`https://fcm.googleapis.com/fcm/send`, data,{
+      headers: {
+        'Authorization': 'key=AAAA19vPNWs:APA91bEM8cqLi91kiGgeAaUowVcYn8nza3D0ZAZuvo2szSdKjyRtTCdws5hsXEbFjjUCbdU8k3HjZTGcft__nB0SLeRRTQef17gSuZ4v4Ga1EhLHLQUO6WwnNPZqPpZSdM-Y55jBm2k6',
+        "Content-Type":"application/json"
+      },
+    });
+    if(status==200 ){
+    const notification = await strapi.db.query('api::notification.notification').create({data:{
+      token,
+      title,
+      body,
+      publishedAt:Date.now(),
+    },populate:true}
+    );
+    const sanitizedEntity = await this.sanitizeOutput(notification, ctx);
+    return this.transformResponse(sanitizedEntity);
+  }else{
+    ctx.send('error')
+  }
+
   },
   async getAllPin(ctx){
     const posts = await strapi.db.query('api::pin.pin').findMany();
