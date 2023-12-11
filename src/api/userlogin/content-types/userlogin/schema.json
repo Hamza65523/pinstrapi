@@ -12,25 +12,10 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "username": {
-      "type": "string"
-    },
-    "phone": {
-      "type": "biginteger"
-    },
-    "userverified": {
-      "type": "boolean",
-      "default": false
-    },
-    "image": {
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ],
-      "type": "media",
-      "multiple": false
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
     }
   }
 }

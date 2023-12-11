@@ -169,6 +169,14 @@ module.exports = createCoreController(
         });
       }
       try {
+         await strapi.entityService.create('api::userlogin.userlogin', {
+          data:{
+            user:userWithThisNumber.id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            publishedAt: new Date()
+          },
+        });
         ctx.send({ jwt: strapi.plugins['users-permissions'].services.jwt.issue({ id: userWithThisNumber.id }) ,userWithThisNumber, status: true });
       } catch (error) {
         ctx.send(error);
