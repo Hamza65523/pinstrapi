@@ -27,38 +27,41 @@ module.exports = createCoreController(
       if (userWithThisNumber) {
         return ctx.send({
           users: userWithThisNumber,
-          message: "Phone already taken.",
+          message: "Phone  get Success.",
           field: ["phone"],
         });
       }
     },
     async create(ctx) {
-      const { phone } = ctx.request.body;
+      const { phone,username,email,image } = ctx.request.body;
 
       if (!phone) return ctx.badRequest("missing.phone");
-      // if (!username) return ctx.badRequest('missing.username');
+      if (!username) return ctx.badRequest('missing.username');
+      if (!email) return ctx.badRequest('missing.email');
+      if (!image) return ctx.badRequest('missing.image');
 
       const userWithThisNumber = await strapi
         .query("plugin::users-permissions.user")
         .findOne({
           where: {
             phone,
+            email,
           },
         });
       if (userWithThisNumber) {
         return ctx.send({
           id: "Auth.form.error.phone.taken",
-          message: "Phone already taken.",
-          field: ["phone"],
+          message: "Phone or Email already taken.",
+          field: ["phone",'email'],
         });
       }
 
-      const token = Math.floor(Math.random() * 90000) + 10000;
 
       const user = {
-        username: "user-" + token,
         phone,
-        email: "email" + token + "@gmail.com",
+        username,
+        email,
+        image,
         provider: "local",
       };
 
@@ -207,7 +210,7 @@ module.exports = createCoreController(
     },
 async updateuser(ctx) {
       const { phone } = ctx.request.params;
-      const { username, email } = ctx.request.body.data;
+      const { username, email,image } = ctx.request.body.data;
       const updatedPin = await strapi.db
         .query("plugin::users-permissions.user")
         .update({
@@ -217,7 +220,9 @@ async updateuser(ctx) {
           data: {
             username,
             email,
+            image
           },
+          populate:true
         });
 
       if (!updatedPin) {

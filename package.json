@@ -15,7 +15,8 @@
     "@strapi/strapi": "4.1.8",
     "axios": "^1.6.2",
     "better-sqlite3": "^7.6.2",
-    "luxon": "^3.4.4"
+    "luxon": "^3.4.4",
+    "pg": "^8.11.3"
   },
   "author": {
     "name": "A Strapi developer"
