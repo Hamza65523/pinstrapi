@@ -54,34 +54,35 @@ module.exports = createCoreController(
       }
     },
     async create(ctx) {
-      const { phone,username,email,image } = ctx.request.body;
+      const { phone } = ctx.request.body;
 
       if (!phone) return ctx.badRequest("missing.phone");
-      if (!username) return ctx.badRequest('missing.username');
-      if (!email) return ctx.badRequest('missing.email');
-      if (!image) return ctx.badRequest('missing.image');
+      // if (!username) return ctx.badRequest('missing.username');
+      // if (!email) return ctx.badRequest('missing.email');
+      // if (!image) return ctx.badRequest('missing.image');
 
       const userWithThisNumber = await strapi
         .query("plugin::users-permissions.user")
         .findOne({
           where: {
             phone,
-            email,
+            // email,
           },
         });
       if (userWithThisNumber) {
         return ctx.send({
           id: "Auth.form.error.phone.taken",
-          message: "Phone or Email already taken.",
-          field: ["phone",'email'],
+          message: "Phone already taken.",
+          field: ["phone"],
         });
       }
+      const token = Math.floor(Math.random() * 90000) + 10000;
 
 
       const user = {
         phone,
-        username,
-        email,
+        username: "user-" + token,
+        email: "email" + token + "@gmail.com",
         image,
         provider: "local",
       };
