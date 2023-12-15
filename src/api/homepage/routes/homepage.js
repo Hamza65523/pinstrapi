@@ -63,5 +63,14 @@ routes: [
             // prefix: '',
         },
     },
+    {
+        method: 'DELETE',
+        path: '/delete-user/:phone',
+        handler: 'homepage.deleteUser',
+        config: {
+            // middlewares: ['plugin::users-permissions.rateLimit'],
+            // prefix: '',
+        },
+    },
 ]
 }

@@ -32,6 +32,27 @@ module.exports = createCoreController(
         });
       }
     },
+    async deleteUser(ctx) {
+      const { phone } = ctx.request.params;
+      if (!phone) return ctx.badRequest("missing.phone");
+      // if (!username) return ctx.badRequest('missing.username');
+        const data = await strapi.db.query('plugin::users-permissions.user').delete({
+          where: { phone }
+      });
+      if (data) {
+        return ctx.send({
+          users: data,
+          message: "Phone Delete Success.",
+          field: ["phone"],
+        });
+      }else{
+        return ctx.send({
+          users: data,
+          message: "Phone Not found.",
+          field: ["phone"],
+        });
+      }
+    },
     async create(ctx) {
       const { phone,username,email,image } = ctx.request.body;
 
