@@ -93,7 +93,7 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::pin.pin",
-      "inversedBy": "user"
+      "mappedBy": "user"
     }
   }
 }

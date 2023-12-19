@@ -35,13 +35,7 @@
         "audios"
       ]
     },
-    "locationType": {
-      "type": "string"
-    },
     "resetToken": {
-      "type": "string"
-    },
-    "pin": {
       "type": "string"
     },
     "expireToken": {
@@ -55,6 +49,21 @@
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user",
       "inversedBy": "pin"
+    },
+    "categoryId": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::category.category"
+    },
+    "isDefaultPin": {
+      "type": "boolean",
+      "default": false
+    },
+    "pin": {
+      "type": "biginteger",
+      "min": "6",
+      "max": "6",
+      "default": "0"
     }
   }
 }

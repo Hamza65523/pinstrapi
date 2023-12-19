@@ -16,11 +16,10 @@
       "type": "string",
       "unique": true
     },
-    "savepins": {
+    "user": {
       "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::savepin.savepin",
-      "mappedBy": "user"
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
     }
   }
 }

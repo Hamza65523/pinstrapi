@@ -64,26 +64,52 @@ module.exports = createCoreController('api::pin.pin', ({strapi}) => ({
     return pins;
   },
 async createPin(ctx){
-    const {  latitude, longitude,name,address,locationType,customMinutes,phone} = ctx.request.body;
-    if (!latitude||!longitude||!name||!address||!locationType||!customMinutes||!phone) {
+  
+
+    const {  latitude, longitude,name,address,pic,categoryId,customMinutes,phone,isDefault,pin,user} = ctx.request.body;
+    if (!latitude||!longitude||!name||!categoryId||!phone) {
       return ctx.throw(404, 'all fields are required bro please yar');
     }
-    const posts = await strapi.db.query('api::pin.pin').create({data:{
+    let data={
       latitude,
       longitude,
-      address, 
       name,
       phone,
-      locationType,
+      categoryId,
       publishedAt:Date.now(),
-      pin:generateRandomPIN(),
+      pin,
       resetToken:generateRandomToken(8),
-      expireToken:new Date(Date.now() + customMinutes * 60 * 1000), 
-    },populate:true}
+      isDefault,
+      expireToken: isDefault ? new Date('2100-01-01T00:00:00Z') : new Date(Date.now() + customMinutes * 60 * 1000),
+    }
+    if(address){
+      data.address=address
+    }
+    if(user){
+      data.user=user
+    }
+    if(pic){
+      data.pic=pic
+    }
+    const posts = await strapi.db.query('api::pin.pin').create({data:data,populate:['pic','categoryId','user']}
     );
     const sanitizedEntity = await this.sanitizeOutput(posts, ctx);
     
     return this.transformResponse(sanitizedEntity);
+  },
+async getCategory_user_id(ctx){
+  const {user}= ctx.query
+  console.log(user)
+    
+    if (!user) {
+      return ctx.throw(404, 'all fields are required bro please yar');
+    }
+    const posts = await strapi.db.query('api::category.category').findOne({
+      where: {"user":user},
+      populate:['user']
+    },);
+
+    ctx.send(posts)
   },
 async fcmNotification(ctx){
     const {token, title,body} = ctx.request.body;

@@ -39,6 +39,15 @@ module.exports = {
       },
       {
        method: 'GET',
+       path: '/get_category_userid',
+       handler: 'pin.getCategory_user_id',
+       config: {
+         policies: [],
+         middlewares: [],
+       },
+      },
+      {
+       method: 'GET',
        path: '/getsavepinsbynumber/:phone',
        handler: 'pin.getsavepinPhone',
        config: {

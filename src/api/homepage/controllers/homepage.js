@@ -83,7 +83,6 @@ module.exports = createCoreController(
         phone,
         username: "user-" + token,
         email: "email" + token + "@gmail.com",
-        image,
         provider: "local",
       };
 
