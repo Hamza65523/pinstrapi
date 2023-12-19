@@ -104,7 +104,7 @@ async getCategory_user_id(ctx){
     if (!user) {
       return ctx.throw(404, 'all fields are required bro please yar');
     }
-    const posts = await strapi.db.query('api::category.category').findOne({
+    const posts = await strapi.db.query('api::category.category').findMany({
       where: {"user":user},
       populate:['user']
     },);
