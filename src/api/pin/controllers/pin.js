@@ -77,7 +77,7 @@ module.exports = createCoreController('api::pin.pin', ({strapi}) => ({
 async createPin(ctx){
   
 
-    const {  latitude, longitude,name,address,pic,categoryId,customMinutes,phone,isDefault,pin,user} = ctx.request.body;
+    const {isDefaultPin,  latitude, longitude,name,address,pic,categoryId,customMinutes,phone,isDefault,pin,user} = ctx.request.body;
     if (!latitude||!longitude||!name||!categoryId||!phone) {
       return ctx.throw(404, 'all fields are required bro please yar');
     }
@@ -85,6 +85,7 @@ async createPin(ctx){
       latitude,
       longitude,
       name,
+      isDefaultPin,
       phone,
       categoryId,
       publishedAt:Date.now(),
@@ -230,7 +231,7 @@ if (!posts) {
   async getPinNumber(ctx){
     const phone = ctx.request.params.phone;
   const posts = await strapi.db.query('api::pin.pin').findOne({
-  where: {"phone": phone}
+  where: {"phone": phone,"isDefaultPin":true}
 });
 if (!posts) {
   return ctx.throw(404, 'Pin not found');
