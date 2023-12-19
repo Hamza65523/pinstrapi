@@ -47,6 +47,15 @@ module.exports = {
        },
       },
       {
+       method: 'GET',
+       path: '/getpin_by_categoryId',
+       handler: 'pin.getpin_by_categoryId',
+       config: {
+         policies: [],
+         middlewares: [],
+       },
+      },
+      {
        method: 'POST',
        path: '/create_category',
        handler: 'pin.create_category',
