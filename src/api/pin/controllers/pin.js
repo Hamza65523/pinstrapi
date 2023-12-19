@@ -97,6 +97,24 @@ async createPin(ctx){
     
     return this.transformResponse(sanitizedEntity);
   },
+async create_category(ctx){
+  
+
+    const {  name, user} = ctx.request.body;
+    if (!name||!user) {
+      return ctx.throw(404, 'all fields are required bro please yar');
+    }
+    let data={
+      user,
+      name,
+      publishedAt:Date.now(),
+    }
+    const posts = await strapi.db.query('api::category.category').create({data:data,populate:['user']}
+    );
+    const sanitizedEntity = await this.sanitizeOutput(posts, ctx);
+    
+    return this.transformResponse(sanitizedEntity);
+  },
 async getCategory_user_id(ctx){
   const {user}= ctx.query
   console.log(user)
