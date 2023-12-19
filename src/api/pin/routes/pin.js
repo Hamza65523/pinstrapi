@@ -101,6 +101,15 @@ module.exports = {
        },
       },
       {
+       method: 'POST',
+       path: '/createsharepin',
+       handler: 'pin.createsharepin',
+       config: {
+         policies: [],
+         middlewares: [],
+       },
+      },
+      {
        method: 'GET',
        path: '/pin',
        handler: 'pin.getAllPin',

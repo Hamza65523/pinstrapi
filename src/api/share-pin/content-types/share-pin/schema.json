@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "share_pins",
+  "info": {
+    "singularName": "share-pin",
+    "pluralName": "share-pins",
+    "displayName": "share_pin"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "from_userid": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "to_userid": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "pin_Id": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::pin.pin"
+    }
+  }
+}
