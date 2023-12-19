@@ -59,9 +59,20 @@ module.exports = createCoreController('api::pin.pin', ({strapi}) => ({
 
     // Retrieve pins by phone number
     const pins = await strapi.db.query('api::pin.pin').findMany({
-      where: {"phone": phoneNumber}
+      where: {"phone": phoneNumber,"expireToken":{$gt:Date.now()}}
     });
     return pins;
+  },
+  async get_pin_userId(ctx) {
+    const { user } = ctx.query;
+    if (!user) {
+      return ctx.badRequest('Phone number is required.');
+    }
+    // Retrieve pins by phone number
+    const pins = await strapi.db.query('api::pin.pin').findMany({
+      where: {"user": user,}
+    });
+    ctx.send({data:pins})
   },
 async createPin(ctx){
   
