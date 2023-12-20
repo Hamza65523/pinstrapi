@@ -191,11 +191,12 @@ async getpin_by_categoryId_userid(ctx){
     const formattedData = sharedPins.map(obj => ({
       ...obj,
       ...obj.pin_Id,
-      id:undefined,
-      createdAt:undefined,
-      updatedAt:undefined,
-      publishedAt:undefined,
+      // id:undefined,
+      // createdAt:undefined,
+      // updatedAt:undefined,
+      // publishedAt:undefined,
       user: obj.to_userid, // Rename to_userid to user
+      categoryId: obj.categoryId, // Rename to_userid to user
       to_userid: undefined, // Remove the old key
       pin_Id: undefined // Remove the old key
     }));
