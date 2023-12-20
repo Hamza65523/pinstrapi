@@ -4,7 +4,8 @@
   "info": {
     "singularName": "share-pin",
     "pluralName": "share-pins",
-    "displayName": "share_pin"
+    "displayName": "share_pin",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -25,6 +26,11 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::pin.pin"
+    },
+    "categoryId": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::category.category"
     }
   }
 }
