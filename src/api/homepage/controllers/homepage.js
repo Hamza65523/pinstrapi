@@ -231,7 +231,7 @@ module.exports = createCoreController(
     },
 async updateuser(ctx) {
       const { phone } = ctx.request.params;
-      const { username, email,image } = ctx.request.body.data;
+      const { username,fcmtoken, email,image } = ctx.request.body.data;
       const updatedPin = await strapi.db
         .query("plugin::users-permissions.user")
         .update({
@@ -241,7 +241,8 @@ async updateuser(ctx) {
           data: {
             username,
             email,
-            image
+            image,
+            fcmtoken,
           },
           populate:true
         });

@@ -94,6 +94,9 @@
       "relation": "oneToOne",
       "target": "api::pin.pin",
       "mappedBy": "user"
+    },
+    "fcmtoken": {
+      "type": "string"
     }
   }
 }

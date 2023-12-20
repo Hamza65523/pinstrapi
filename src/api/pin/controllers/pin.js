@@ -247,7 +247,10 @@ if (!posts) {
   async getPinNumber(ctx){
     const phone = ctx.request.params.phone;
   const posts = await strapi.db.query('api::pin.pin').findOne({
-  where: {"phone": phone,"isDefaultPin":true}
+  where: {"phone": phone,"isDefaultPin":true},
+  populate:{
+    categoryId:true
+  }
 });
 if (!posts) {
   return ctx.throw(404, 'Pin not found');
