@@ -171,6 +171,20 @@ async getpin_by_categoryId(ctx){
 
     ctx.send({data:posts})
   },
+async getpin_by_categoryId_userid(ctx){
+  const {categoryId,user_id}= ctx.query
+
+    
+    if (!categoryId||!user_id) {
+      return ctx.throw(404, 'all fields are required bro please yar');
+    }
+    const posts = await strapi.db.query('api::pin.pin').findMany({
+      where: {"categoryId":categoryId,'user':user_id},
+      populate:['pic','categoryId','user']
+    },);
+
+    ctx.send({data:posts})
+  },
 async fcmNotification(ctx){
     const {token, title,body} = ctx.request.body;
     if (!token||!title||!body) {

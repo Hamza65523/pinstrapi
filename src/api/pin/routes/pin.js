@@ -92,6 +92,15 @@ module.exports = {
        },
       },
       {
+       method: 'GET',
+       path: '/getpin-by-categoryId-userid',
+       handler: 'pin.getpin_by_categoryId_userid',
+       config: {
+         policies: [],
+         middlewares: [],
+       },
+      },
+      {
        method: 'POST',
        path: '/pin',
        handler: 'pin.createPin',
