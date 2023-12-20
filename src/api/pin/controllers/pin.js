@@ -185,9 +185,22 @@ async getpin_by_categoryId_userid(ctx){
     
     const sharedPins = await strapi.db.query('api::share-pin.share-pin').findMany({
       where: {"to_userid":user_id,'categoryId':categoryId},
-      populate:['pic','categoryId','pin_Id','to_userid']
+      populate:['pic','categoryId','pin_Id','pin_Id.pic','to_userid']
     },);
-    const allPins = [...createdPins, ...sharedPins];
+    
+    const formattedData = sharedPins.map(obj => ({
+      ...obj,
+      ...obj.pin_Id,
+      id:undefined,
+      createdAt:undefined,
+      updatedAt:undefined,
+      publishedAt:undefined,
+      user: obj.to_userid, // Rename to_userid to user
+      to_userid: undefined, // Remove the old key
+      pin_Id: undefined // Remove the old key
+    }));
+    
+    const allPins = [...createdPins, ...formattedData];
 
     ctx.send({data:allPins})
   },
