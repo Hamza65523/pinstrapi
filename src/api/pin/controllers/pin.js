@@ -134,7 +134,7 @@ async createsharepin(ctx){
       return ctx.throw(404, 'all fields are required bro please yar');
     }
     let data={
-      to_userid, from_userid,pin_id,
+      to_userid, from_userid,pin_Id:pin_id,
       publishedAt:Date.now(),
     }
     const posts = await strapi.db.query('api::share-pin.share-pin').create({data:data,populate:["to_userid", "from_userid","pin_id"]}
@@ -186,20 +186,13 @@ async getpin_by_categoryId_userid(ctx){
               });
     const sharedPins = await strapi.entityService.findMany('api::share-pin.share-pin', {
       where: {"to_userid":user_id,'categoryId':categoryId},
-      populate:['pic','categoryId','pin_Id','pin_Id.pic','to_userid']
+      populate:['categoryId','pin_Id','pin_Id.pic','to_userid']
               });
               
     const formattedData = sharedPins.map(obj => ({
-      ...obj,
       ...obj.pin_Id,
-      id:obj.pin_Id.id,
-      createdAt:obj.pin_Id.createdAt,
-      updatedAt:obj.pin_Id.updatedAt,
-      publishedAt:obj.pin_Id.publishedAt,
       user: obj.to_userid, // Rename to_userid to user
       categoryId: obj.categoryId, // Rename to_userid to user
-      to_userid: undefined, // Remove the old key
-      pin_Id: undefined // Remove the old key
     }));
     
     const allPins = [...createdPins, ...formattedData];
