@@ -129,13 +129,16 @@ async create_category(ctx){
   },
 async createsharepin(ctx){
   
-    const {  to_userid, from_userid,pin_id} = ctx.request.body;
+    const {  to_userid, from_userid,pin_id,categoryId} = ctx.request.body;
     if (!to_userid||!from_userid||!pin_id) {
       return ctx.throw(404, 'all fields are required bro please yar');
     }
     let data={
       to_userid, from_userid,pin_Id:pin_id,
       publishedAt:Date.now(),
+    }
+    if(categoryId){
+      data.categoryId = categoryId;
     }
     const posts = await strapi.db.query('api::share-pin.share-pin').create({data:data,populate:["to_userid", "from_userid","pin_id"]}
     );
