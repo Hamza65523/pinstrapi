@@ -177,24 +177,25 @@ async getpin_by_categoryId_userid(ctx){
     if (!categoryId||!user_id) {
       return ctx.throw(404, 'all fields are required bro please yar');
     }
- 
-     const createdPins = await strapi.db.query('api::pin.pin').findMany({
-      where: {"user":user_id},
-      populate:['pic','categoryId','user']
-    },);
     
-    const sharedPins = await strapi.db.query('api::share-pin.share-pin').findMany({
+    const createdPins = await strapi.entityService.findMany('api::pin.pin', {
+      where: {
+        user:user_id
+      },
+      populate:['pic','categoryId','user']
+              });
+    const sharedPins = await strapi.entityService.findMany('api::share-pin.share-pin', {
       where: {"to_userid":user_id,'categoryId':categoryId},
       populate:['pic','categoryId','pin_Id','pin_Id.pic','to_userid']
-    },);
-    
+              });
+              
     const formattedData = sharedPins.map(obj => ({
       ...obj,
       ...obj.pin_Id,
-      // id:undefined,
-      // createdAt:undefined,
-      // updatedAt:undefined,
-      // publishedAt:undefined,
+      id:obj.pin_Id.id,
+      createdAt:obj.pin_Id.createdAt,
+      updatedAt:obj.pin_Id.updatedAt,
+      publishedAt:obj.pin_Id.publishedAt,
       user: obj.to_userid, // Rename to_userid to user
       categoryId: obj.categoryId, // Rename to_userid to user
       to_userid: undefined, // Remove the old key
