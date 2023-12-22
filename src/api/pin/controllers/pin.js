@@ -69,11 +69,13 @@ module.exports = createCoreController('api::pin.pin', ({strapi}) => ({
     if (!user) {
       return ctx.badRequest('Phone number is required.');
     }
-    // Retrieve pins by phone number
-    const pins = await strapi.entityService.create('api::pin.pin', {
-      where: {"user": user,}
-    })
-  
+    const pins = await strapi.entityService.findMany('api::pin.pin', {
+      where: {
+        user:user,
+      },
+      populate:['pic','categoryId','user']
+              });
+
     ctx.send({data:pins})
   },
 async createPin(ctx){
