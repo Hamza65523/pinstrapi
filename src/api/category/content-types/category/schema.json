@@ -20,6 +20,12 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
+    },
+    "pins": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::pin.pin",
+      "mappedBy": "category"
     }
   }
 }

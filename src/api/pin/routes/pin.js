@@ -121,6 +121,16 @@ module.exports = {
      
       {
        method: 'POST',
+       path: '/updateCategoryPins',
+       handler: 'pin.updateCategoryPins',
+       config: {
+         policies: [],
+         middlewares: [],
+       },
+      },
+     
+      {
+       method: 'POST',
        path: '/pin',
        handler: 'pin.createPin',
        config: {

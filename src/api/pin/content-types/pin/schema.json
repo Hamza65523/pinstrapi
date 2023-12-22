@@ -53,12 +53,16 @@
     },
     "pin": {
       "type": "biginteger",
-      "min": "6",
-      "max": "6",
       "default": "0"
     },
     "categoryId": {
       "type": "string"
+    },
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "pins"
     }
   }
 }

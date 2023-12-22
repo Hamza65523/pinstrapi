@@ -366,6 +366,31 @@ if (!posts) {
     const sanitizedEntity = await this.sanitizeOutput(updatedPin, ctx);
     return this.transformResponse(sanitizedEntity);
   },
+  async updateCategoryPins(ctx) {
+    const {categoryId} = ctx.query;
+    const {
+        pins,
+    } = ctx.request.body;
+    
+    const scategory = await strapi.db.query('api::category.category').findOne({
+      where: {"id": categoryId},
+      populate:true
+    },);
+    let allpin = [...pins,...scategory.pins]
+    const updatedPin = await strapi.db.query('api::category.category').update({
+        where: {
+            id: scategory.id
+        },
+        data: {
+          pins:allpin,
+        }
+    });
+    if (!updatedPin) {
+        return ctx.throw(404, 'Pin not found');
+    }
+    const sanitizedEntity = await this.sanitizeOutput(updatedPin, ctx);
+    return this.transformResponse(sanitizedEntity);
+  },
   
 
 }));
