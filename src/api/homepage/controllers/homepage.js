@@ -23,6 +23,27 @@ module.exports = createCoreController(
           where: {
             phone,
           },
+          populate:['pic']
+        });
+      if (userWithThisNumber) {
+        return ctx.send({
+          users: userWithThisNumber,
+          message: "Phone  get Success.",
+          field: ["phone"],
+        });
+      }
+    },
+    async getUser_userid(ctx) {
+      const { user_id } = ctx.query;
+      if (!user_id) return ctx.badRequest("missing.phone");
+      // if (!username) return ctx.badRequest('missing.username');
+      const userWithThisNumber = await strapi
+        .query("plugin::users-permissions.user")
+        .findMany({
+          where: {
+            id:user_id,
+          },
+          populate:['pic']
         });
       if (userWithThisNumber) {
         return ctx.send({

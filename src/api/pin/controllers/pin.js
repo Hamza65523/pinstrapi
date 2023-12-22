@@ -188,6 +188,7 @@ async getpin_by_categoryId_userid(ctx){
       },
       populate:['pic','categoryId','user']
               });
+              
     const sharedPins = await strapi.entityService.findMany('api::share-pin.share-pin', {
       where: {"to_userid":user_id,'categoryId':categoryId},
       populate:['categoryId','pin_Id','pin_Id.pic','to_userid']
