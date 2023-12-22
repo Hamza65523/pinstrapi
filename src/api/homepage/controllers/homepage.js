@@ -54,11 +54,11 @@ module.exports = createCoreController(
       }
     },
     async deleteUser(ctx) {
-      const { phone } = ctx.request.params;
-      if (!phone) return ctx.badRequest("missing.phone");
+      const { user_id } = ctx.query;
+      if (!user_id) return ctx.badRequest("missing.phone");
       // if (!username) return ctx.badRequest('missing.username');
         const data = await strapi.db.query('plugin::users-permissions.user').delete({
-          where: { phone }
+          where: { user:user_id }
       });
       if (data) {
         return ctx.send({
@@ -228,13 +228,13 @@ module.exports = createCoreController(
       }
     },
     async toggle(ctx) {
-      const { phone } = ctx.params;
+      const { user_id } = ctx.query;
 
       const updatedPin = await strapi.db
         .query("plugin::users-permissions.user")
         .update({
           where: {
-            phone: phone,
+            user: user_id,
           },
           data: {
             confirmed: true,
@@ -251,13 +251,13 @@ module.exports = createCoreController(
       }
     },
 async updateuser(ctx) {
-      const { phone } = ctx.request.params;
+      const { user_id } = ctx.query;
       const { username,fcmtoken, email,image } = ctx.request.body.data;
       const updatedPin = await strapi.db
         .query("plugin::users-permissions.user")
         .update({
           where: {
-            phone: phone,
+            user: user_id,
           },
           data: {
             username,

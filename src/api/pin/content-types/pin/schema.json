@@ -47,11 +47,6 @@
       "target": "plugin::users-permissions.user",
       "inversedBy": "pin"
     },
-    "categoryId": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::category.category"
-    },
     "isDefaultPin": {
       "type": "boolean",
       "default": false
@@ -61,6 +56,9 @@
       "min": "6",
       "max": "6",
       "default": "0"
+    },
+    "categoryId": {
+      "type": "string"
     }
   }
 }

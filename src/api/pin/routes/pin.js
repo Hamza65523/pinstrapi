@@ -30,7 +30,7 @@ module.exports = {
       },
       {
        method: 'GET',
-       path: '/findpinbynumber/:phoneNumber',
+       path: '/findpinbynumber',
        handler: 'pin.findByPhoneNumber',
        config: {
          policies: [],
@@ -75,7 +75,7 @@ module.exports = {
       },
       {
        method: 'GET',
-       path: '/getsavepinsbynumber/:phone',
+       path: '/getsavepinsbynumber',
        handler: 'pin.getsavepinPhone',
        config: {
          policies: [],

@@ -29,15 +29,6 @@ routes: [
     },
     {
         method: 'GET',
-        path: '/get-user-phone/:phone',
-        handler: 'homepage.getUser',
-        config: {
-            // middlewares: ['plugin::users-permissions.rateLimit'],
-            // prefix: '',
-        },
-    },
-    {
-        method: 'GET',
         path: '/getUser_userid',
         handler: 'homepage.getUser_userid',
         config: {
@@ -56,7 +47,7 @@ routes: [
     },
     {
         method: 'PUT',
-        path: '/toggle/:phone',
+        path: '/toggle',
         handler: 'homepage.toggle',
         config: {
             // middlewares: ['plugin::users-permissions.rateLimit'],
@@ -65,7 +56,7 @@ routes: [
     },
     {
         method: 'PUT',
-        path: '/update-user-profile/:phone',
+        path: '/update-user-profile',
         handler: 'homepage.updateuser',
         config: {
             // middlewares: ['plugin::users-permissions.rateLimit'],
@@ -74,7 +65,7 @@ routes: [
     },
     {
         method: 'DELETE',
-        path: '/delete-user/:phone',
+        path: '/delete-user',
         handler: 'homepage.deleteUser',
         config: {
             // middlewares: ['plugin::users-permissions.rateLimit'],
