@@ -41,9 +41,6 @@
     "expireToken": {
       "type": "datetime"
     },
-    "phone": {
-      "type": "text"
-    },
     "user": {
       "type": "relation",
       "relation": "oneToOne",

@@ -77,8 +77,8 @@ module.exports = createCoreController('api::pin.pin', ({strapi}) => ({
 async createPin(ctx){
   
 
-    const {isDefaultPin,  latitude, longitude,name,address,pic,categoryId,customMinutes,phone,isDefault,pin,user} = ctx.request.body;
-    if (!latitude||!longitude||!name||!categoryId||!phone) {
+    const {isDefaultPin,  latitude, longitude,name,address,pic,categoryId,customMinutes,isDefault,pin,user} = ctx.request.body;
+    if (!latitude||!longitude||!name||!categoryId) {
       return ctx.throw(404, 'all fields are required bro please yar');
     }
     let data={
@@ -86,7 +86,6 @@ async createPin(ctx){
       longitude,
       name,
       isDefaultPin,
-      phone,
       categoryId,
       publishedAt:Date.now(),
       pin,
@@ -188,7 +187,7 @@ async getpin_by_categoryId_userid(ctx){
       },
       populate:['pic','categoryId','user']
               });
-              
+
     const sharedPins = await strapi.entityService.findMany('api::share-pin.share-pin', {
       where: {"to_userid":user_id,'categoryId':categoryId},
       populate:['categoryId','pin_Id','pin_Id.pic','to_userid']
