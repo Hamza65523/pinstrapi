@@ -37,6 +37,15 @@ routes: [
         },
     },
     {
+        method: 'GET',
+        path: '/getUser_userid',
+        handler: 'homepage.getUser_userid',
+        config: {
+          policies: [],
+          middlewares: [],
+        },
+       },
+    {
         method: 'POST',
         path: '/login',
         handler: 'homepage.login',

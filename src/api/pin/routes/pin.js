@@ -100,15 +100,7 @@ module.exports = {
          middlewares: [],
        },
       },
-      {
-       method: 'GET',
-       path: '/getUser_userid',
-       handler: 'pin.getUser_userid',
-       config: {
-         policies: [],
-         middlewares: [],
-       },
-      },
+     
       {
        method: 'POST',
        path: '/pin',
