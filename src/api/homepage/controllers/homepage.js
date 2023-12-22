@@ -23,11 +23,11 @@ module.exports = createCoreController(
           where: {
             phone,
           },
-          populate:['pic']
+          populate:true
         });
       if (userWithThisNumber) {
         return ctx.send({
-          users: userWithThisNumber,
+          data: userWithThisNumber[0],
           message: "Phone  get Success.",
           field: ["phone"],
         });
@@ -43,11 +43,11 @@ module.exports = createCoreController(
           where: {
             id:user_id,
           },
-          populate:['pic']
+          populate:true
         });
       if (userWithThisNumber) {
         return ctx.send({
-          users: userWithThisNumber,
+          data: userWithThisNumber[0],
           message: "Phone  get Success.",
           field: ["phone"],
         });
