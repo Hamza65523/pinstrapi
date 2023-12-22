@@ -73,7 +73,7 @@ module.exports = createCoreController('api::pin.pin', ({strapi}) => ({
       where: {
         user:user,
       },
-      populate:['pic','categoryId','user']
+      populate:['pic','user']
               });
 
     ctx.send({data:pins})
@@ -106,7 +106,7 @@ async createPin(ctx){
     if(pic){
       data.pic=pic
     }
-    const posts = await strapi.db.query('api::pin.pin').create({data:data,populate:['pic','categoryId','user']}
+    const posts = await strapi.db.query('api::pin.pin').create({data:data,populate:['pic','user']}
     );
     const sanitizedEntity = await this.sanitizeOutput(posts, ctx);
     
@@ -281,17 +281,14 @@ if (!posts) {
     return this.transformResponse(sanitizedEntity);
   },
   async getPinNumber(ctx){
-    const phone = ctx.request.params.phone;
+    const {user_id} = ctx.query;
   const posts = await strapi.db.query('api::pin.pin').findOne({
-  where: {"phone": phone,"isDefaultPin":true},
-  populate:{
-    categoryId:true
-  }
+  where: {"user":user_id,"isDefaultPin":true},
+
 });
 if (!posts) {
   return ctx.throw(404, 'Pin not found');
 }
-
     // .findOne({where: {"PrimaryPhone": phone}});
     // const posts = await strapi.db.query('api::post.post').findMany({
     //   where: {

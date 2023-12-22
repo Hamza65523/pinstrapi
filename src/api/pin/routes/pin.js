@@ -84,7 +84,7 @@ module.exports = {
       },
       {
        method: 'GET',
-       path: '/get-pin-byphone/:phone',
+       path: '/get-default-pin-userid',
        handler: 'pin.getPinNumber',
        config: {
          policies: [],
