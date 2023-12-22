@@ -183,7 +183,8 @@ async getpin_by_categoryId_userid(ctx){
     
     const createdPins = await strapi.entityService.findMany('api::pin.pin', {
       where: {
-        user:user_id
+        user:user_id,
+        categoryId:categoryId
       },
       populate:['pic','categoryId','user']
               });
