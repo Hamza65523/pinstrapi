@@ -113,9 +113,7 @@ async createPin(ctx){
     return this.transformResponse(sanitizedEntity);
   },
 async create_category(ctx){
-  
-
-    const {  name, user} = ctx.request.body;
+    const {name, user} = ctx.request.body;
     if (!name||!user) {
       return ctx.throw(404, 'all fields are required bro please yar');
     }
@@ -126,6 +124,18 @@ async create_category(ctx){
     }
     const posts = await strapi.db.query('api::category.category').create({data:data,populate:['user']}
     );
+    const sanitizedEntity = await this.sanitizeOutput(posts, ctx);
+    
+    return this.transformResponse(sanitizedEntity);
+  },
+async admin_category(ctx){
+  const posts = await strapi.entityService.findMany('api::category.category', {
+    filters: {
+      $and: [
+        {
+          user: null,
+        },]},
+    });
     const sanitizedEntity = await this.sanitizeOutput(posts, ctx);
     
     return this.transformResponse(sanitizedEntity);
@@ -147,6 +157,19 @@ async createsharepin(ctx){
     );
     const sanitizedEntity = await this.sanitizeOutput(posts, ctx);
     
+    return this.transformResponse(sanitizedEntity);
+  },
+async getsharepins(ctx){
+  
+    const {current_userid} = ctx.query;
+    if (!current_userid) {
+      return ctx.throw(404, 'all fields are required bro please yar');
+    }
+    const sharedPins = await strapi.entityService.findMany('api::share-pin.share-pin', {
+    where: {"to_userid":current_userid},
+    populate:['categoryId','pin_Id','pin_Id.pic','to_userid']
+    });
+    const sanitizedEntity = await this.sanitizeOutput(sharedPins, ctx);
     return this.transformResponse(sanitizedEntity);
   },
 async getCategory_user_id(ctx){
@@ -189,13 +212,13 @@ async getpin_by_categoryId_userid(ctx){
         user:user_id,
         categoryId:categoryId
       },
-      populate:['pic','categoryId','user']
+      populate:['pic','user']
               });
 
     const sharedPins = await strapi.entityService.findMany('api::share-pin.share-pin', {
       where: {"to_userid":user_id,'categoryId':categoryId},
       populate:['categoryId','pin_Id','pin_Id.pic','to_userid']
-              });
+      });
               
     const formattedData = sharedPins.map(obj => ({
       ...obj.pin_Id,
@@ -203,7 +226,7 @@ async getpin_by_categoryId_userid(ctx){
       categoryId: obj.categoryId, // Rename to_userid to user
     }));
     
-    const allPins = [...createdPins, ...formattedData];
+    const allPins = [...createdPins, ...sharedPins];
 
     ctx.send({data:allPins})
   },

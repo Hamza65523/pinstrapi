@@ -84,6 +84,15 @@ module.exports = {
       },
       {
        method: 'GET',
+       path: '/get_admin_category',
+       handler: 'pin.admin_category',
+       config: {
+         policies: [],
+         middlewares: [],
+       },
+      },
+      {
+       method: 'GET',
        path: '/get-default-pin-userid',
        handler: 'pin.getPinNumber',
        config: {
@@ -95,6 +104,15 @@ module.exports = {
        method: 'GET',
        path: '/getpin-by-categoryId-userid',
        handler: 'pin.getpin_by_categoryId_userid',
+       config: {
+         policies: [],
+         middlewares: [],
+       },
+      },
+      {
+       method: 'GET',
+       path: '/getsharepins',
+       handler: 'pin.getsharepins',
        config: {
          policies: [],
          middlewares: [],
